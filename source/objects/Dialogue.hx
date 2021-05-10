@@ -6,10 +6,11 @@ import flixel.math.FlxPoint;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import openfl.utils.Assets;
+import states.PlayState;
 
 using flixel.util.FlxSpriteUtil;
 
-var nameTagX = 180;
+private var name_tag_x = 180;
 
 class Dialogue extends FlxSpriteGroup
 {
@@ -17,8 +18,8 @@ class Dialogue extends FlxSpriteGroup
 	var currentLine:Int = 0;
 	var bgVerts:Array<FlxPoint> = [
 		new FlxPoint(0, 0),
-		new FlxPoint(nameTagX, 0),
-		new FlxPoint(nameTagX, 50),
+		new FlxPoint(name_tag_x, 0),
+		new FlxPoint(name_tag_x, 50),
 		new FlxPoint(850, 50),
 		new FlxPoint(850, 290),
 		new FlxPoint(0, 290)
@@ -36,9 +37,7 @@ class Dialogue extends FlxSpriteGroup
 	{
 		super();
 
-		// FIXME current issue is that splitting is returning a 1 element array
 		dialogue = Assets.getText('assets/data/dialogues/${fileName}.txt').split('\n');
-		trace(dialogue.length);
 
 		bg = new FlxSprite(25, 400);
 		bg.makeGraphic(875, 720, FlxColor.TRANSPARENT);
@@ -47,7 +46,7 @@ class Dialogue extends FlxSpriteGroup
 		bg.drawPolygon(bgVerts, FlxColor.WHITE, {color: FlxColor.WHITE});
 
 		var x_dist = 15;
-		// Name will obviously change
+
 		name = "Best Friend";
 		nameBox = new FlxText(bg.x + x_dist, bg.y + 10, 0, name, 32);
 		nameBox.setFormat("assets/data/monogram_extended.ttf", 32);
@@ -58,23 +57,30 @@ class Dialogue extends FlxSpriteGroup
 		text.setFormat("assets/data/monogram_extended.ttf", 32);
 		add(text);
 		text.start(null, false, false, [SPACE], () -> canAdvance = true);
+	}
 
-		#if debug
-		FlxG.watch.add(this, "currentLine");
-		#end
+	public function restart(fileName:String)
+	{
+		this.revive();
+
+		dialogue = Assets.getText('assets/data/dialogues/${fileName}.txt').split('\n');
+		currentLine = 0;
+
+		text.resetText(dialogue[currentLine]);
+		text.start(null, false, false, [SPACE], () -> canAdvance = true);
 	}
 
 	override function update(elapsed:Float)
 	{
 		if (FlxG.mouse.justPressed && canAdvance)
 		{
-			trace(dialogue.length);
-
 			canAdvance = false;
 			currentLine++;
 
 			if (currentLine >= dialogue.length)
+			{
 				this.kill();
+			}
 			else
 			{
 				text.resetText(dialogue[currentLine]);
@@ -85,5 +91,16 @@ class Dialogue extends FlxSpriteGroup
 		super.update(elapsed);
 	}
 
-	function advance() {}
+	override function kill()
+	{
+		var s:PlayState = cast FlxG.state;
+		PlayState.steps++;
+
+		if (PlayState.steps > s.dialogueSteps)
+			s.canTranslate = false;
+		else
+			s.canTranslate = true;
+
+		super.kill();
+	}
 }
