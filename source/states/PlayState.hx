@@ -11,6 +11,9 @@ class PlayState extends FlxState
 	override public function create()
 	{
 		FlxG.mouse.load("assets/images/cursor.png");
+		#if debug
+		FlxG.log.redirectTraces = true;
+		#end
 
 		c = new FlxSprite().loadGraphic("assets/images/char.png");
 		add(c);
