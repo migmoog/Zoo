@@ -26,11 +26,8 @@ class PlayState extends FlxState
 		FlxG.log.redirectTraces = true;
 		#end
 
-		// need proper wrapping later
 		bg = new FlxSprite(steps * -1280, 0, "assets/images/testBG.png");
-
 		c = new FlxSprite().loadGraphic("assets/images/char.png");
-
 		d = new Dialogue('$steps');
 
 		add(bg);
