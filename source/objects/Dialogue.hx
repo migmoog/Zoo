@@ -14,6 +14,8 @@ private var name_tag_x = 180;
 
 class Dialogue extends FlxSpriteGroup
 {
+	var inPlayState:Bool;
+
 	var dialogue:Array<String> = [];
 	var currentLine:Int = 0;
 	var bgVerts:Array<FlxPoint> = [
@@ -33,10 +35,11 @@ class Dialogue extends FlxSpriteGroup
 
 	public var canAdvance:Bool = false;
 
-	public function new(fileName:String)
+	public function new(fileName:String, inPlayState:Bool)
 	{
 		super();
 
+		this.inPlayState = inPlayState;
 		dialogue = Assets.getText('assets/data/dialogues/${fileName}.txt').split('\n');
 
 		bg = new FlxSprite(25, 400);
@@ -53,8 +56,8 @@ class Dialogue extends FlxSpriteGroup
 		nameBox.color = FlxColor.YELLOW;
 		add(nameBox);
 
-		text = new FlxTypeText(bg.x + x_dist, bg.y + 60, 875, dialogue[currentLine], 32, true);
-		text.setFormat("assets/data/monogram_extended.ttf", 32);
+		text = new FlxTypeText(bg.x + x_dist, bg.y + 60, 850, dialogue[currentLine], 48, true);
+		text.setFormat("assets/data/monogram_extended.ttf", 48);
 		add(text);
 		text.start(null, false, false, [SPACE], () -> canAdvance = true);
 	}
@@ -93,13 +96,16 @@ class Dialogue extends FlxSpriteGroup
 
 	override function kill()
 	{
-		var s:PlayState = cast FlxG.state;
-		PlayState.steps++;
+		if (inPlayState)
+		{
+			var s:PlayState = cast FlxG.state;
+			PlayState.steps++;
 
-		if (PlayState.steps > s.dialogueSteps)
-			s.canTranslate = false;
-		else
-			s.canTranslate = true;
+			if (PlayState.steps > s.dialogueSteps)
+				s.canTranslate = false;
+			else
+				s.canTranslate = true;
+		}
 
 		super.kill();
 	}
