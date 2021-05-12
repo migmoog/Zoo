@@ -8,12 +8,13 @@ class Animal extends FlxState
 	var spots:FlxTypedGroup<Spot>;
 	var baseAniml:FlxSprite;
 	var happyBar:FlxBar;
+	var happiness:Int = 0;
 
 	override function create()
 	{
-		var w = 80;
-		var h = 680;
-		happyBar = new FlxBar(FlxG.width - (w + 25), 0, BOTTOM_TO_TOP, w, h);
+		var w = 65;
+		var h = 550;
+		happyBar = new FlxBar(FlxG.width - (w + 25), 0, BOTTOM_TO_TOP, w, h, this, 'happiness', 0, 5, true);
 		happyBar.screenCenter(Y);
 		add(happyBar);
 

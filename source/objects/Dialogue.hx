@@ -90,6 +90,11 @@ class Dialogue extends FlxSpriteGroup
 				text.start(null, false, false, [SPACE], () -> canAdvance = true);
 			}
 		}
+		else if (FlxG.mouse.justPressed && !canAdvance)
+		{
+			text.skip();
+			canAdvance = true;
+		}
 
 		super.update(elapsed);
 	}
