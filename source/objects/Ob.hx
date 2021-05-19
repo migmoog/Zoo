@@ -1,3 +1,0 @@
-package objects;
-
-class Ob {}

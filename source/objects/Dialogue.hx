@@ -58,8 +58,9 @@ class Dialogue extends FlxSpriteGroup
 
 		text = new FlxTypeText(bg.x + x_dist, bg.y + 60, 850, dialogue[currentLine], 48, true);
 		text.setFormat("assets/data/monogram_extended.ttf", 48);
+		text.completeCallback = () -> canAdvance = true;
 		add(text);
-		text.start(null, false, false, [SPACE], () -> canAdvance = true);
+		text.start(null, false, false, [SPACE]);
 	}
 
 	public function restart(fileName:String)
@@ -70,7 +71,7 @@ class Dialogue extends FlxSpriteGroup
 		currentLine = 0;
 
 		text.resetText(dialogue[currentLine]);
-		text.start(null, false, false, [SPACE], () -> canAdvance = true);
+		text.start(null, false, false, [SPACE]);
 	}
 
 	override function update(elapsed:Float)
@@ -87,7 +88,7 @@ class Dialogue extends FlxSpriteGroup
 			else
 			{
 				text.resetText(dialogue[currentLine]);
-				text.start(null, false, false, [SPACE], () -> canAdvance = true);
+				text.start(null, false, false, [SPACE]);
 			}
 		}
 		else if (FlxG.mouse.justPressed && !canAdvance)

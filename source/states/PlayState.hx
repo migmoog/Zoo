@@ -1,6 +1,7 @@
 package states;
 
 import flixel.FlxState;
+import flixel.input.mouse.FlxMouseEventManager;
 import flixel.tweens.FlxEase;
 import flixel.util.FlxColor;
 import objects.Dialogue;
@@ -25,6 +26,7 @@ class PlayState extends FlxState
 		FlxG.mouse.load("assets/images/cursor.png");
 		#if debug
 		FlxG.log.redirectTraces = true;
+		FlxG.switchState(new Giraffe());
 		#end
 
 		bg = new FlxSprite(steps * -1280, 0, "assets/images/testBG.png");

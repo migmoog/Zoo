@@ -16,12 +16,14 @@ class Giraffe extends Animal
 
 	override function update(elapsed:Float)
 	{
+		if (!tutDialog.alive)
+			spotDistance();
+
 		super.update(elapsed);
 	}
 
 	public function new()
 	{
-		// null for now
-		super(null, "giraffe");
+		super([new Spot(600, 350, this)], "giraffe");
 	}
 }

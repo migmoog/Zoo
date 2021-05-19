@@ -1,22 +1,16 @@
 package states;
 
 import flixel.FlxObject;
-
-enum SpotType
-{
-	GOOD;
-	BAD;
-}
+import flixel.input.mouse.FlxMouseEventManager;
 
 class Spot extends FlxObject
 {
-	public var type:SpotType;
 	public var petted:Bool = false;
+	public var parent:Animal;
+	public var r:Int = 20;
 
-	public function new(x:Float, y:Float, parent:Animal, type:SpotType)
+	public function new(x:Float, y:Float, parent:Animal)
 	{
-		this.type = type;
-
-		super(x, y, 10, 10);
+		super(x, y, 1, 1);
 	}
 }
