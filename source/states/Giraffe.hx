@@ -24,6 +24,6 @@ class Giraffe extends Animal
 
 	public function new()
 	{
-		super([new Spot(600, 350, this)], "giraffe");
+		super([new Spot(600, 350, 25, this)], "giraffe");
 	}
 }

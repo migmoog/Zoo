@@ -13,6 +13,7 @@ class Animal extends FlxState
 
 	public var happiness:Int = 0;
 	public var chances:Int = 3;
+	public var canClickAgain:Bool = true;
 
 	override function create()
 	{
@@ -37,6 +38,12 @@ class Animal extends FlxState
 
 	override function update(elapsed:Float)
 	{
+		if (chances <= 0 && canClickAgain)
+		{
+			canClickAgain = false;
+			FlxG.resetState();
+		}
+
 		super.update(elapsed);
 	}
 
@@ -77,19 +84,25 @@ class Animal extends FlxState
 				trace("Isn't within a spot");
 			#end
 
-			if (FlxG.mouse.justPressed)
+			if (FlxG.mouse.justPressed && canClickAgain)
 			{
 				if (within_spot(s))
 				{
+					express(true);
+
 					happiness++;
+
 					#if debug
 					trace("clicked a spot");
 					#end
+
 					s.petted = true;
 					return;
 				}
 				else
 				{
+					express(false);
+
 					chances--;
 					#if debug
 					trace("didn't click within a spot");
@@ -98,5 +111,11 @@ class Animal extends FlxState
 				}
 			}
 		}
+	}
+
+	function express(happy:Bool)
+	{
+		canClickAgain = false;
+		FlxG.sound.play('assets/music/${happy ? "ehh" : "uhh"}.mp3', 0.6, false, null, true, () -> canClickAgain = true);
 	}
 }
