@@ -1,7 +1,6 @@
 package states;
 
 import flixel.FlxObject;
-import flixel.input.mouse.FlxMouseEventManager;
 
 class Spot extends FlxObject
 {
