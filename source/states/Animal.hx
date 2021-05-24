@@ -1,5 +1,6 @@
 package states;
 
+import flixel.input.mouse.FlxMouseEventManager;
 import flixel.math.FlxPoint;
 import flixel.ui.FlxBar;
 import flixel.util.FlxColor.*;
@@ -14,13 +15,16 @@ class Animal extends FlxState
 	public var happiness:Int = 0;
 	public var chances:Int = 3;
 	public var canClickAgain:Bool = true;
+	public var mouseSpritePixels:Bool = false;
 
 	override function create()
 	{
+		FlxG.plugins.add(new FlxMouseEventManager());
+
 		#if debug
 		FlxG.watch.add(this, 'happiness', "spots clicked: ");
 		FlxG.watch.add(this, 'chances', "chances left: ");
-		FlxG.debugger.visible = true;
+		// FlxG.debugger.visible = true;
 		#end
 
 		var w = 65;
@@ -32,6 +36,8 @@ class Animal extends FlxState
 		happyBar.screenCenter(Y);
 		happyBar.percent = 0;
 		add(happyBar);
+
+		FlxMouseEventManager.add(baseAniml, null, null, mouse_pixel_perfect);
 
 		super.create();
 	}
@@ -55,7 +61,7 @@ class Animal extends FlxState
 			this.spots.add(s);
 
 		baseAniml = new FlxSprite(0, 0, 'assets/images/${sprName}.png');
-		add(baseAniml);
+		// add(baseAniml);
 	}
 
 	// will be called at certain times dependant on each animal
@@ -84,7 +90,7 @@ class Animal extends FlxState
 				trace("Isn't within a spot");
 			#end
 
-			if (FlxG.mouse.justPressed && canClickAgain)
+			if (FlxG.mouse.justPressed && canClickAgain && mouseSpritePixels)
 			{
 				if (within_spot(s))
 				{
@@ -115,7 +121,13 @@ class Animal extends FlxState
 
 	function express(happy:Bool)
 	{
+		// animal will have its child tween the jaw and allow clicks again
 		canClickAgain = false;
-		FlxG.sound.play('assets/music/${happy ? "ehh" : "uhh"}.mp3', 0.6, false, null, true, () -> canClickAgain = true);
+		FlxG.sound.play('assets/music/${happy ? "ehh" : "uhh"}.mp3', 0.6, false, null, true);
+	}
+
+	function mouse_pixel_perfect(_)
+	{
+		mouseSpritePixels = true;
 	}
 }
