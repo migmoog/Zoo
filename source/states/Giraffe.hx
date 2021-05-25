@@ -45,61 +45,38 @@ class Giraffe extends Animal
 			eye.angle = Math.atan2(FlxG.mouse.y - eye.y, FlxG.mouse.x - eye.x) * (180 / Math.PI);
 		}
 
+		if (FlxG.mouse.justPressed)
+			eyeColor.makeGraphic(120, 120, FlxColor.WHITE);
+
 		if (!tutDialog.alive)
 		{
-			eyeColor.color = FlxColor.interpolate(FlxColor.GREEN, FlxColor.WHITE, closest_spot());
+			if (!tweeningJaw)
+				eyeColor.color = FlxColor.interpolate(FlxColor.GREEN, FlxColor.WHITE, closest_spot());
+
 			spotDistance();
 		}
 
 		super.update(elapsed);
 	}
 
-	function closest_spot()
-	{
-		// FIXME eyecolor needs to reset after click
-		var distance = (s:Spot) ->
-		{
-			if (!s.petted)
-			{
-				var x1 = FlxG.mouse.x - s.x;
-				var y1 = FlxG.mouse.y - s.y;
-
-				return Math.sqrt((x1 * x1) + (y1 * y1)) / 100;
-			}
-			else
-				return null;
-		};
-
-		var dists:Array<Float> = [for (s in spots) distance(s)];
-
-		var temp:Float;
-		for (i in 0...dists.length)
-		{
-			if (dists[i] > dists[i + 1])
-			{
-				temp = dists[i];
-				dists[i] = dists[i + 1];
-				dists[i + 1] = temp;
-			}
-		}
-
-		return dists[0];
-	}
-
 	public function new()
 	{
-		super([new Spot(600, 350, 60, this)], "giraffe");
+		super([new Spot(340, 270, 60, this), new Spot(800, 180, 60, this)], "giraffe");
 	}
-
-	// returns the distance of the spot the mouse is closest to
 
 	override function express(happy:Bool)
 	{
 		super.express(happy);
 
-		eyeColor.color = FlxColor.WHITE;
 		FlxTween.tween(jaw, {angle: -90}, 1, {
 			onStart: (_) -> tweeningJaw = true,
+			onUpdate: (_) ->
+			{
+				if (happy)
+					eyeColor.color = FlxColor.GREEN;
+				else
+					eyeColor.color = FlxColor.RED;
+			},
 			onComplete: (_) ->
 			{
 				FlxTween.tween(jaw, {angle: jaw.angle + 90}, 0.5, {

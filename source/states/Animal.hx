@@ -44,6 +44,12 @@ class Animal extends FlxState
 
 	override function update(elapsed:Float)
 	{
+		if (happiness == spots.length && canClickAgain)
+		{
+			canClickAgain = false;
+			FlxG.switchState(new PlayState());
+		}
+
 		if (chances <= 0 && canClickAgain)
 		{
 			canClickAgain = false;
@@ -83,13 +89,6 @@ class Animal extends FlxState
 
 		for (s in spots.members)
 		{
-			#if debug
-			if (within_spot(s))
-				trace("Within a spot");
-			else
-				trace("Isn't within a spot");
-			#end
-
 			if (FlxG.mouse.justPressed && canClickAgain && mouseSpritePixels)
 			{
 				if (within_spot(s))
@@ -97,10 +96,6 @@ class Animal extends FlxState
 					express(true);
 
 					happiness++;
-
-					#if debug
-					trace("clicked a spot");
-					#end
 
 					s.petted = true;
 					return;
@@ -110,13 +105,50 @@ class Animal extends FlxState
 					express(false);
 
 					chances--;
-					#if debug
-					trace("didn't click within a spot");
-					#end
 					return;
 				}
 			}
 		}
+	}
+
+	function closest_spot()
+	{
+		// FIXME eyecolor needs to reset after click
+		var distance = (s:Spot) ->
+		{
+			if (!s.petted)
+			{
+				var x1 = FlxG.mouse.x - s.x;
+				var y1 = FlxG.mouse.y - s.y;
+
+				return Math.sqrt((x1 * x1) + (y1 * y1)) / 100;
+			}
+			else
+				return null;
+		};
+
+		var dists:Array<Float> = [
+			for (s in spots)
+			{
+				var d = distance(s);
+
+				if (d != null)
+					d;
+			}
+		];
+
+		var temp:Float;
+		for (i in 0...dists.length)
+		{
+			if (dists[i] > dists[i + 1])
+			{
+				temp = dists[i];
+				dists[i] = dists[i + 1];
+				dists[i + 1] = temp;
+			}
+		}
+
+		return dists[0];
 	}
 
 	function express(happy:Bool)
@@ -127,7 +159,5 @@ class Animal extends FlxState
 	}
 
 	function mouse_pixel_perfect(_)
-	{
 		mouseSpritePixels = true;
-	}
 }
