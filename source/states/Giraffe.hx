@@ -1,6 +1,8 @@
 package states;
 
 import flixel.input.mouse.FlxMouseEventManager;
+import flixel.math.FlxPoint;
+import flixel.math.FlxVector;
 import flixel.util.FlxColor;
 import objects.Dialogue;
 
@@ -8,18 +10,21 @@ class Giraffe extends Animal
 {
 	var tutDialog:Dialogue;
 	var eyeColor:FlxSprite;
+	// var eyeVector:FlxVector;
 	var eye:FlxSprite;
 	var jaw:FlxSprite;
 	var tweeningJaw:Bool = false;
+	var em:FlxPoint;
 
 	override function create()
 	{
-		eyeColor = new FlxSprite(560, 300).makeGraphic(120, 120, FlxColor.WHITE);
+		eyeColor = new FlxSprite(540, 280).makeGraphic(150, 150, FlxColor.WHITE);
 		add(eyeColor);
+		em = eyeColor.getMidpoint();
 
 		add(baseAniml);
 
-		eye = new FlxSprite(560, 300, 'assets/images/eye.png');
+		eye = new FlxSprite(em.x - 32, em.y - 32, 'assets/images/eye.png');
 		add(eye);
 
 		jaw = new FlxSprite(570 - 381, 530 - 216, "assets/images/giraffe_jaw.png");
@@ -35,6 +40,12 @@ class Giraffe extends Animal
 
 	override function update(elapsed:Float)
 	{
+		var eyeVector:FlxVector = FlxVector.get(FlxG.mouse.x - em.x, FlxG.mouse.y - em.y);
+		eyeVector.length = 10;
+		eye.x = em.x + eyeVector.x - eye.width / 2;
+		eye.y = em.y + eyeVector.y - eye.height / 2;
+		eyeVector.put();
+
 		if (!tweeningJaw)
 		{
 			var x1 = FlxG.mouse.x - jaw.origin.x;
@@ -42,11 +53,7 @@ class Giraffe extends Animal
 			var distance = (Math.sqrt((x1 * x1) + (y1 * y1)) / 100);
 
 			jaw.angle = -distance;
-			eye.angle = Math.atan2(FlxG.mouse.y - eye.y, FlxG.mouse.x - eye.x) * (180 / Math.PI);
 		}
-
-		if (FlxG.mouse.justPressed)
-			eyeColor.makeGraphic(120, 120, FlxColor.WHITE);
 
 		if (!tutDialog.alive)
 		{
