@@ -41,7 +41,11 @@ class Giraffe extends Animal
 	override function update(elapsed:Float)
 	{
 		var eyeVector:FlxVector = FlxVector.get(FlxG.mouse.x - em.x, FlxG.mouse.y - em.y);
-		eyeVector.length = 10;
+		var og_mag = eyeVector.length;
+		var dist_scale = Math.min(1.0, og_mag / (FlxG.width / 2));
+
+		eyeVector.length = eyeColor.width / 2 - eye.width / 2;
+		eyeVector.length *= dist_scale;
 		eye.x = em.x + eyeVector.x - eye.width / 2;
 		eye.y = em.y + eyeVector.y - eye.height / 2;
 		eyeVector.put();

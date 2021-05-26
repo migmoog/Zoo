@@ -11,6 +11,8 @@ class Animal extends FlxState
 	var spots:FlxTypedGroup<Spot>;
 	var baseAniml:FlxSprite;
 	var happyBar:FlxBar;
+	// name for audio files
+	var name:String;
 
 	public var happiness:Int = 0;
 	public var chances:Int = 3;
@@ -67,7 +69,7 @@ class Animal extends FlxState
 			this.spots.add(s);
 
 		baseAniml = new FlxSprite(0, 0, 'assets/images/${sprName}.png');
-		// add(baseAniml);
+		name = sprName;
 	}
 
 	// will be called at certain times dependant on each animal
@@ -155,7 +157,7 @@ class Animal extends FlxState
 	{
 		// animal will have its child tween the jaw and allow clicks again
 		canClickAgain = false;
-		FlxG.sound.play('assets/music/${happy ? "ehh" : "uhh"}.mp3', 0.6, false, null, true);
+		FlxG.sound.play('assets/music/${name}_${happy ? "ehh" : "uhh"}.mp3', 0.6, false, null, true);
 	}
 
 	function mouse_pixel_perfect(_)
