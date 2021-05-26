@@ -10,7 +10,6 @@ class Giraffe extends Animal
 {
 	var tutDialog:Dialogue;
 	var eyeColor:FlxSprite;
-	// var eyeVector:FlxVector;
 	var eye:FlxSprite;
 	var jaw:FlxSprite;
 	var tweeningJaw:Bool = false;
@@ -29,7 +28,7 @@ class Giraffe extends Animal
 		add(eye);
 
 		jaw = new FlxSprite(570 - 381, 530 - 216, "assets/images/giraffe_jaw.png");
-		jaw.origin.set(381, 216);
+		jaw.origin.set(380, 220);
 		add(jaw);
 		FlxMouseEventManager.add(jaw, null, null, mouse_pixel_perfect);
 
@@ -41,7 +40,7 @@ class Giraffe extends Animal
 
 	override function update(elapsed:Float)
 	{
-		// vector magic
+		// vector magic thanks Markl :-)
 		var eyeVector:FlxVector = FlxVector.get(FlxG.mouse.x - em.x, FlxG.mouse.y - em.y);
 		var og_mag = eyeVector.length;
 		var dist_scale = Math.min(1.0, og_mag / (FlxG.width / 2));
@@ -74,7 +73,7 @@ class Giraffe extends Animal
 
 	public function new()
 	{
-		super([new Spot(770, 480, 60, this), new Spot(340, 270, 60, this),], "giraffe");
+		super([new Spot(770, 480, 60), new Spot(340, 270, 85), new Spot(580, 690, 35)], "giraffe");
 	}
 
 	override function express(happy:Bool)

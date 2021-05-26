@@ -32,14 +32,16 @@ class Dialogue extends FlxSpriteGroup
 	var bg:FlxSprite;
 	var nameBox:FlxText;
 	var text:FlxTypeText;
+	var finishCallback:Void->Void;
 
 	public var canAdvance:Bool = false;
 
-	public function new(fileName:String, inPlayState:Bool)
+	public function new(fileName:String, inPlayState:Bool, ?finishCallback:Void->Void)
 	{
 		super();
 
 		this.inPlayState = inPlayState;
+		this.finishCallback = finishCallback;
 		dialogue = Assets.getText('assets/data/dialogues/${fileName}.txt').split('\n');
 
 		bg = new FlxSprite(25, 400);
@@ -60,7 +62,10 @@ class Dialogue extends FlxSpriteGroup
 		text.setFormat("assets/data/monogram_extended.ttf", 48);
 		text.completeCallback = () -> canAdvance = true;
 		add(text);
-		text.start(null, false, false, [SPACE], () -> canAdvance = true);
+		text.start(null, false, false, [SPACE], () ->
+		{
+			canAdvance = true;
+		});
 	}
 
 	public function restart(fileName:String)
@@ -112,6 +117,8 @@ class Dialogue extends FlxSpriteGroup
 			else
 				s.canTranslate = true;
 		}
+		else if (!inPlayState && finishCallback != null)
+			finishCallback();
 
 		super.kill();
 	}

@@ -99,15 +99,12 @@ class Animal extends FlxState
 				if (spot_within != null)
 				{
 					express(true);
-
 					happiness++;
-
 					spot_within.petted = true;
 				}
 				else
 				{
 					express(false);
-
 					chances--;
 				}
 			}
