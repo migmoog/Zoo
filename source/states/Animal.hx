@@ -26,7 +26,7 @@ class Animal extends FlxState
 		#if debug
 		FlxG.watch.add(this, 'happiness', "spots clicked: ");
 		FlxG.watch.add(this, 'chances', "chances left: ");
-		// FlxG.debugger.visible = true;
+		FlxG.debugger.visible = true;
 		#end
 
 		var w = 65;
@@ -89,33 +89,32 @@ class Animal extends FlxState
 			return result;
 		};
 
-		for (s in spots.members)
+		var spot_within:Spot = null;
+		for (s in spots.iterator(within_spot))
+			spot_within = s;
+
+		if (FlxG.mouse.justPressed && canClickAgain && mouseSpritePixels)
 		{
-			if (FlxG.mouse.justPressed && canClickAgain && mouseSpritePixels)
+			if (spot_within != null)
 			{
-				if (within_spot(s))
-				{
-					express(true);
+				express(true);
 
-					happiness++;
+				happiness++;
 
-					s.petted = true;
-					return;
-				}
-				else
-				{
-					express(false);
+				spot_within.petted = true;
+			}
+			else
+			{
+				express(false);
 
-					chances--;
-					return;
-				}
+				chances--;
 			}
 		}
 	}
 
 	function closest_spot()
 	{
-		// FIXME eyecolor needs to reset after click
+		// FIXME can only click the first member of an array
 		var distance = (s:Spot) ->
 		{
 			if (!s.petted)
@@ -130,7 +129,7 @@ class Animal extends FlxState
 		};
 
 		var dists:Array<Float> = [
-			for (s in spots)
+			for (s in spots.members)
 			{
 				var d = distance(s);
 

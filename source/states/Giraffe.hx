@@ -18,9 +18,10 @@ class Giraffe extends Animal
 
 	override function create()
 	{
-		eyeColor = new FlxSprite(540, 280).makeGraphic(150, 150, FlxColor.WHITE);
+		eyeColor = new FlxSprite(540, 280).makeGraphic(150, 130, FlxColor.WHITE);
 		add(eyeColor);
 		em = eyeColor.getMidpoint();
+		em.y += 20;
 
 		add(baseAniml);
 
@@ -40,6 +41,7 @@ class Giraffe extends Animal
 
 	override function update(elapsed:Float)
 	{
+		// vector magic
 		var eyeVector:FlxVector = FlxVector.get(FlxG.mouse.x - em.x, FlxG.mouse.y - em.y);
 		var og_mag = eyeVector.length;
 		var dist_scale = Math.min(1.0, og_mag / (FlxG.width / 2));
@@ -72,7 +74,7 @@ class Giraffe extends Animal
 
 	public function new()
 	{
-		super([new Spot(340, 270, 60, this), new Spot(800, 180, 60, this)], "giraffe");
+		super([new Spot(770, 480, 60, this), new Spot(340, 270, 60, this),], "giraffe");
 	}
 
 	override function express(happy:Bool)
