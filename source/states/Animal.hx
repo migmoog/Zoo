@@ -26,7 +26,7 @@ class Animal extends FlxState
 		#if debug
 		FlxG.watch.add(this, 'happiness', "spots clicked: ");
 		FlxG.watch.add(this, 'chances', "chances left: ");
-		FlxG.debugger.visible = true;
+		// FlxG.debugger.visible = true;
 		#end
 
 		var w = 65;
@@ -93,23 +93,24 @@ class Animal extends FlxState
 		for (s in spots.iterator(within_spot))
 			spot_within = s;
 
-		if (FlxG.mouse.justPressed && canClickAgain && mouseSpritePixels)
-		{
-			if (spot_within != null)
+		if (mouseSpritePixels)
+			if (FlxG.mouse.justPressed && canClickAgain)
 			{
-				express(true);
+				if (spot_within != null)
+				{
+					express(true);
 
-				happiness++;
+					happiness++;
 
-				spot_within.petted = true;
+					spot_within.petted = true;
+				}
+				else
+				{
+					express(false);
+
+					chances--;
+				}
 			}
-			else
-			{
-				express(false);
-
-				chances--;
-			}
-		}
 	}
 
 	function closest_spot()
