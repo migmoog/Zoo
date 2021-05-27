@@ -39,7 +39,7 @@ class Animal extends FlxState
 		happyBar.percent = 0;
 		add(happyBar);
 
-		FlxMouseEventManager.add(baseAniml, null, null, mouse_pixel_perfect);
+		FlxMouseEventManager.add(baseAniml, null, null, mouse_over, not_mouse_over);
 
 		super.create();
 	}
@@ -115,25 +115,15 @@ class Animal extends FlxState
 		// FIXME can only click the first member of an array
 		var distance = (s:Spot) ->
 		{
-			if (!s.petted)
-			{
-				var x1 = FlxG.mouse.x - s.x;
-				var y1 = FlxG.mouse.y - s.y;
+			var x1 = FlxG.mouse.x - s.x;
+			var y1 = FlxG.mouse.y - s.y;
 
-				return Math.sqrt((x1 * x1) + (y1 * y1)) / 100;
-			}
-			else
-				return null;
+			return Math.sqrt((x1 * x1) + (y1 * y1)) / 100;
 		};
 
 		var dists:Array<Float> = [
-			for (s in spots.members)
-			{
-				var d = distance(s);
-
-				if (d != null)
-					d;
-			}
+			for (s in spots.iterator((s) -> !s.petted))
+				distance(s)
 		];
 
 		var temp:Float;
@@ -157,6 +147,9 @@ class Animal extends FlxState
 		FlxG.sound.play('assets/music/${name}_${happy ? "ehh" : "uhh"}.mp3', 0.6, false, null, true);
 	}
 
-	function mouse_pixel_perfect(_)
+	function mouse_over(_)
 		mouseSpritePixels = true;
+
+	function not_mouse_over(_)
+		mouseSpritePixels = false;
 }

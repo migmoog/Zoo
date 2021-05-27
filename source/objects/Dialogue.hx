@@ -117,7 +117,7 @@ class Dialogue extends FlxSpriteGroup
 			else
 				s.canTranslate = true;
 		}
-		else if (!inPlayState && finishCallback != null)
+		else if (finishCallback != null)
 			finishCallback();
 
 		super.kill();
