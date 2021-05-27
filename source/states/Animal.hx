@@ -112,7 +112,6 @@ class Animal extends FlxState
 
 	function closest_spot()
 	{
-		// FIXME can only click the first member of an array
 		var distance = (s:Spot) ->
 		{
 			var x1 = FlxG.mouse.x - s.x;
@@ -144,7 +143,7 @@ class Animal extends FlxState
 	{
 		// animal will have its child tween the jaw and allow clicks again
 		canClickAgain = false;
-		FlxG.sound.play('assets/music/${name}_${happy ? "ehh" : "uhh"}.mp3', 0.6, false, null, true);
+		FlxG.sound.play('assets/sounds/${name}_${happy ? "good" : "bad"}.mp3', 0.5, false, null, true);
 	}
 
 	function mouse_over(_)
