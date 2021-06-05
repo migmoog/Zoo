@@ -20,11 +20,13 @@ class Gorilla extends Animal
 	var ogSnoutPoint:FlxPoint;
 	var snout:FlxSprite;
 
+	var tweeningJaw:Bool = false;
+
 	override function create()
 	{
 		add(baseAniml);
 
-		armBase = new FlxSprite(30, 335, "assets/images/gorilla_arm.png");
+		armBase = new FlxSprite(30, 270, "assets/images/gorilla_arm.png");
 		ogArmPoint = armBase.getPosition();
 		// add(arm);
 
@@ -48,22 +50,46 @@ class Gorilla extends Animal
 
 	override function update(elapsed:Float)
 	{
-		armShake.intensity = closest_spot();
-		armShake.start();
-
 		var mouse_pos = FlxG.mouse.getPosition();
 		var jaw_dist = ((FlxG.height / 2 + 50) - mouse_pos.y) / 5;
 		var snout_dist = ogSnoutPoint.distanceTo(mouse_pos) / 100;
 
-		jaw.y = ogJawPoint.y + jaw_dist / 2;
+		if (!tweeningJaw)
+		{
+			armShake.intensity = closest_spot();
+			armShake.start();
+
+			jaw.y = ogJawPoint.y + jaw_dist / 2;
+			snout.y = ogSnoutPoint.y + snout_dist;
+			spotDistance();
+		}
+
 		arm.y = ogArmPoint.y + jaw_dist;
-		snout.y = ogSnoutPoint.y + snout_dist;
 
 		super.update(elapsed);
 	}
 
+	override function express(happy:Bool)
+	{
+		super.express(happy);
+
+		FlxTween.tween(jaw, {y: jaw.y + 50}, 1, {
+			onStart: (_) -> tweeningJaw = true,
+			onComplete: (_) ->
+			{
+				FlxTween.tween(jaw, {y: ogJawPoint.y}, 0.5, {
+					onComplete: (_) ->
+					{
+						canClickAgain = true;
+						tweeningJaw = false;
+					}
+				});
+			}
+		});
+	}
+
 	public function new()
 	{
-		super([new Spot(450, 600, 50)], 'gorilla');
+		super([new Spot(450, 600, 50), new Spot(760, 350, 50), new Spot(820, 450, 60)], 'gorilla');
 	}
 }
