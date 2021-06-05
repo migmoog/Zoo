@@ -68,17 +68,6 @@ class Dialogue extends FlxSpriteGroup
 		});
 	}
 
-	public function restart(fileName:String)
-	{
-		this.revive();
-
-		dialogue = Assets.getText('assets/data/dialogues/${fileName}.txt').split('\n');
-		currentLine = 0;
-
-		text.resetText(dialogue[currentLine]);
-		text.start(null, false, false, [SPACE], () -> canAdvance = true);
-	}
-
 	override function update(elapsed:Float)
 	{
 		if (FlxG.mouse.justPressed && canAdvance)
@@ -87,13 +76,11 @@ class Dialogue extends FlxSpriteGroup
 			currentLine++;
 
 			if (currentLine >= dialogue.length)
-			{
 				this.kill();
-			}
 			else
 			{
 				text.resetText(dialogue[currentLine]);
-				text.start(null, false, false, [SPACE], () -> canAdvance = true);
+				start();
 			}
 		}
 		else if (FlxG.mouse.justPressed && !canAdvance)
@@ -122,4 +109,7 @@ class Dialogue extends FlxSpriteGroup
 
 		super.kill();
 	}
+
+	function start()
+		text.start(null, false, false, [SPACE], () -> canAdvance = true);
 }

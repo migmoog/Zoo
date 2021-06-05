@@ -27,7 +27,7 @@ class PlayState extends FlxState
 		FlxG.mouse.load("assets/images/cursor.png");
 		#if debug
 		FlxG.log.redirectTraces = true;
-		// FlxG.switchState(new Giraffe());
+		FlxG.switchState(new Gorilla());
 		#end
 
 		bg = new FlxSprite((steps == 0 ? steps : steps - 1) * -1280, 0, "assets/images/testBG.png");
@@ -45,7 +45,6 @@ class PlayState extends FlxState
 			});
 			add(pre_dialogue);
 		}
-		// FlxTween.tween(bg, {x: bg.x - 1280}, 1.5, {onComplete: (_) -> add(d)});
 		else
 			add(d);
 

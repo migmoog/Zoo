@@ -84,9 +84,7 @@ class Animal extends FlxState
 
 			var d = Math.sqrt((d_x * d_x) + (d_y * d_y));
 
-			var result = d <= s.r && !s.petted;
-
-			return result;
+			return d <= s.r && !s.petted;
 		};
 
 		var spot_within:Spot = null;
