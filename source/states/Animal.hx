@@ -70,6 +70,8 @@ class Animal extends FlxState
 
 		baseAniml = new FlxSprite(0, 0, 'assets/images/${sprName}.png');
 		name = sprName;
+
+		add(new FlxSprite(0, 0, "assets/images/bg.png"));
 	}
 
 	// will be called at certain times dependant on each animal
