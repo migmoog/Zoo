@@ -27,7 +27,7 @@ class PlayState extends FlxState
 		FlxG.mouse.load("assets/images/cursor.png");
 		#if debug
 		FlxG.log.redirectTraces = true;
-		// FlxG.switchState(new Giraffe());
+		FlxG.switchState(new Rhino());
 		#end
 
 		bg = new FlxSprite((steps == 0 ? steps : steps - 1) * -1280, 0, "assets/images/testBG.png");
@@ -58,12 +58,15 @@ class PlayState extends FlxState
 			canTranslate = false;
 			FlxG.camera.fade(FlxColor.WHITE, 1.25, false, () ->
 			{
+				// how to pick new scenes
 				switch (steps)
 				{
 					case 1:
 						FlxG.switchState(new Giraffe());
 					case 2:
 						FlxG.switchState(new Gorilla());
+					case 3:
+						FlxG.switchState(new Rhino());
 				}
 			});
 		}

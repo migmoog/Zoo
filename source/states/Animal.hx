@@ -68,6 +68,7 @@ class Animal extends FlxState
 		for (s in spots)
 			this.spots.add(s);
 
+		// Make sure to add() the sprite to the scene yourself
 		baseAniml = new FlxSprite(0, 0, 'assets/images/${sprName}.png');
 		name = sprName;
 
@@ -77,18 +78,6 @@ class Animal extends FlxState
 	// will be called at certain times dependant on each animal
 	function spotDistance()
 	{
-		var within_spot = (s:Spot) ->
-		{
-			var m = FlxG.mouse;
-
-			var d_x = m.x - s.x;
-			var d_y = m.y - s.y;
-
-			var d = Math.sqrt((d_x * d_x) + (d_y * d_y));
-
-			return d <= s.r && !s.petted;
-		};
-
 		var spot_within:Spot = null;
 		for (s in spots.iterator(within_spot))
 			spot_within = s;
@@ -108,6 +97,18 @@ class Animal extends FlxState
 					chances--;
 				}
 			}
+	}
+
+	function within_spot(s:Spot)
+	{
+		var m = FlxG.mouse;
+
+		var d_x = m.x - s.x;
+		var d_y = m.y - s.y;
+
+		var d = Math.sqrt((d_x * d_x) + (d_y * d_y));
+
+		return d <= s.r && !s.petted;
 	}
 
 	function closest_spot()
