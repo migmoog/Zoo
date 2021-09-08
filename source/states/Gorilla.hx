@@ -3,6 +3,7 @@ package states;
 import flixel.addons.effects.chainable.FlxEffectSprite;
 import flixel.addons.effects.chainable.FlxShakeEffect;
 import flixel.math.FlxPoint;
+import states.Animal.Spot;
 
 class Gorilla extends Animal
 {

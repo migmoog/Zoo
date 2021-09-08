@@ -46,9 +46,9 @@ class Dialogue extends FlxSpriteGroup
 
 		bg = new FlxSprite(25, 400);
 		bg.makeGraphic(875, 720, FlxColor.TRANSPARENT);
-		bg.alpha = 0.25;
+		bg.alpha = 0.50;
 		add(bg);
-		bg.drawPolygon(bgVerts, FlxColor.WHITE, {color: FlxColor.WHITE});
+		bg.drawPolygon(bgVerts, FlxColor.BLUE, {color: FlxColor.PURPLE});
 
 		var x_dist = 15;
 

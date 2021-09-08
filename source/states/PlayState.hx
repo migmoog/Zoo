@@ -24,10 +24,12 @@ class PlayState extends FlxState
 
 	override public function create()
 	{
-		FlxG.mouse.load("assets/images/cursor.png");
+		// FIXME: REPLACE CURSOR WITH 128x128 one
+		FlxG.mouse.load("assets/images/ui/cursor.png");
 		#if debug
 		FlxG.log.redirectTraces = true;
-		FlxG.switchState(new Rhino());
+		// DEBUG CRAP COMMENT OUT FOR RELEASE
+		FlxG.switchState(new Giraffe());
 		#end
 
 		bg = new FlxSprite((steps == 0 ? steps : steps - 1) * -1280, 0, "assets/images/testBG.png");
@@ -67,6 +69,8 @@ class PlayState extends FlxState
 						FlxG.switchState(new Gorilla());
 					case 3:
 						FlxG.switchState(new Rhino());
+					case 4:
+						FlxG.switchState(new Dream());
 				}
 			});
 		}

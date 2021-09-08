@@ -1,5 +1,7 @@
 package states;
 
+import flixel.FlxObject;
+import flixel.group.FlxSpriteGroup;
 import flixel.input.mouse.FlxMouseEventManager;
 import flixel.math.FlxPoint;
 import flixel.ui.FlxBar;
@@ -11,8 +13,10 @@ class Animal extends FlxState
 	var spots:FlxTypedGroup<Spot>;
 	var baseAniml:FlxSprite;
 	var happyBar:FlxBar;
+	var chanceBar:FlxTypedGroup<FlxSprite>;
+
 	// name for audio files
-	var name:String;
+	public var name:String;
 
 	public var happiness:Int = 0;
 	public var chances:Int = 3;
@@ -32,12 +36,20 @@ class Animal extends FlxState
 		var w = 65;
 		var h = 550;
 		happyBar = new FlxBar(FlxG.width - (w + 25), 0, BOTTOM_TO_TOP, w, h, this, 'happiness', 0, spots.members.length, true);
-		happyBar.createColoredEmptyBar(TRANSPARENT, true, RED);
+		happyBar.createColoredEmptyBar(TRANSPARENT, true, BLACK);
 		happyBar.createColoredFilledBar(fromString('#fff23b'));
 
 		happyBar.screenCenter(Y);
 		happyBar.percent = 0;
 		add(happyBar);
+
+		chanceBar = new FlxTypedGroup<FlxSprite>(3);
+		for (i in 0...3)
+		{
+			var h = new FlxSprite(happyBar.x - 145, (happyBar.y) + ((175 * i))).loadGraphic("assets/images/ui/zoo_hearts.png", true, 125, 110);
+			chanceBar.add(h);
+		}
+		add(chanceBar);
 
 		FlxMouseEventManager.add(baseAniml, null, null, mouse_over, not_mouse_over);
 
@@ -46,6 +58,10 @@ class Animal extends FlxState
 
 	override function update(elapsed:Float)
 	{
+		chanceBar.members[0].animation.frameIndex = chances >= 1 ? 0 : 1;
+		chanceBar.members[1].animation.frameIndex = chances >= 2 ? 0 : 1;
+		chanceBar.members[2].animation.frameIndex = chances >= 3 ? 0 : 1;
+
 		if (happiness == spots.length && canClickAgain)
 		{
 			canClickAgain = false;
@@ -55,7 +71,7 @@ class Animal extends FlxState
 		if (chances <= 0 && canClickAgain)
 		{
 			canClickAgain = false;
-			FlxG.resetState();
+			FlxG.switchState(new Dead(this));
 		}
 
 		super.update(elapsed);
@@ -72,7 +88,7 @@ class Animal extends FlxState
 		baseAniml = new FlxSprite(0, 0, 'assets/images/${sprName}.png');
 		name = sprName;
 
-		add(new FlxSprite(0, 0, "assets/images/bg.png"));
+		add(new FlxSprite(0, 0, 'assets/images/backgrounds/${sprName}_bg.png'));
 	}
 
 	// will be called at certain times dependant on each animal
@@ -128,14 +144,12 @@ class Animal extends FlxState
 
 		var temp:Float;
 		for (i in 0...dists.length)
-		{
 			if (dists[i] > dists[i + 1])
 			{
 				temp = dists[i];
 				dists[i] = dists[i + 1];
 				dists[i + 1] = temp;
 			}
-		}
 
 		return dists[0];
 	}
@@ -152,4 +166,16 @@ class Animal extends FlxState
 
 	function not_mouse_over(_)
 		mouseSpritePixels = false;
+}
+
+class Spot extends FlxObject
+{
+	public var petted:Bool = false;
+	public var r:Float;
+
+	public function new(x:Float, y:Float, r:Float)
+	{
+		super(x, y, 1, 1);
+		this.r = r;
+	}
 }

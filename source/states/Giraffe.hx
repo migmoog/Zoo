@@ -5,6 +5,7 @@ import flixel.math.FlxPoint;
 import flixel.math.FlxVector;
 import flixel.util.FlxColor;
 import objects.Dialogue;
+import states.Animal.Spot;
 
 class Giraffe extends Animal
 {

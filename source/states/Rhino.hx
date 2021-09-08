@@ -3,38 +3,20 @@ package states;
 import flixel.effects.particles.FlxEmitter;
 import flixel.effects.particles.FlxParticle;
 import flixel.tweens.FlxEase;
+import states.Animal.Spot;
 
+// TODO: finish this rhino
 class Rhino extends Animal
 {
 	var chest:FlxSprite;
 	var jaw:FlxSprite;
 	var head:FlxSprite;
 
-	var fart:FlxEmitter;
-	// controls how far away the particles can move
-	var box_in:Float = 400;
-	var freq:Float = 0.019;
-
 	override function create()
 	{
 		#if debug
 		members[0].visible = false;
 		#end
-
-		fart = new FlxEmitter(FlxG.width / 2, FlxG.height / 2, 50);
-		fart.launchMode = CIRCLE;
-		fart.lifespan.set(10);
-
-		var p_x_dist:Float = 1280 - box_in;
-		var p_y_dist:Float = 720 - box_in;
-		fart.acceleration.set(-p_x_dist, -p_y_dist, p_x_dist, p_y_dist, -p_x_dist, -p_y_dist, p_x_dist, p_y_dist);
-
-		fart.alpha.set(1, 1, 0.1, 0.1);
-		fart.scale.set(1, 1, 5, 5, 4, 4, 7, 7);
-		fart.loadParticles("assets/images/fart.png");
-		add(fart);
-		// fart.start(false, freq);
-		fart.focusOn(baseAniml);
 
 		add(baseAniml);
 
