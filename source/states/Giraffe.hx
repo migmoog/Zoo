@@ -28,7 +28,7 @@ class Giraffe extends Animal
 		eye = new FlxSprite(em.x - 32, em.y - 32, 'assets/images/eye.png');
 		add(eye);
 
-		jaw = new FlxSprite(570 - 381, 530 - 216, "assets/images/giraffe_jaw.png");
+		jaw = new FlxSprite(570 - 381, 530 - 216, "assets/images/giraffe/giraffe_jaw.png");
 		jaw.origin.set(380, 220);
 		add(jaw);
 		FlxMouseEventManager.add(jaw, null, null, mouse_over, not_mouse_over);

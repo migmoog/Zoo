@@ -85,7 +85,7 @@ class Animal extends FlxState
 			this.spots.add(s);
 
 		// Make sure to add() the sprite to the scene yourself
-		baseAniml = new FlxSprite(0, 0, 'assets/images/${sprName}.png');
+		baseAniml = new FlxSprite(0, 0, 'assets/images/${sprName}/${sprName}.png');
 		name = sprName;
 
 		add(new FlxSprite(0, 0, 'assets/images/backgrounds/${sprName}_bg.png'));

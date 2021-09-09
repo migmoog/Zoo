@@ -27,16 +27,16 @@ class Gorilla extends Animal
 	{
 		add(baseAniml);
 
-		armBase = new FlxSprite(30, 270, "assets/images/gorilla_arm.png");
+		armBase = new FlxSprite(30, 270, "assets/images/gorilla/gorilla_arm.png");
 		ogArmPoint = armBase.getPosition();
 		// add(arm);
 
-		jaw = new FlxSprite(590, 380, "assets/images/gorilla_jaw.png");
+		jaw = new FlxSprite(590, 380, "assets/images/gorilla/gorilla_jaw.png");
 		jaw.origin.x = 150 / 2;
 		ogJawPoint = baseAniml.getMidpoint();
 		add(jaw);
 
-		snout = new FlxSprite(560, 280, "assets/images/gorilla_snout.png");
+		snout = new FlxSprite(560, 280, "assets/images/gorilla/gorilla_snout.png");
 		snout.origin.x = 100;
 		ogSnoutPoint = snout.getPosition();
 		add(snout);
