@@ -58,9 +58,8 @@ class Animal extends FlxState
 
 	override function update(elapsed:Float)
 	{
-		chanceBar.members[0].animation.frameIndex = chances >= 1 ? 0 : 1;
-		chanceBar.members[1].animation.frameIndex = chances >= 2 ? 0 : 1;
-		chanceBar.members[2].animation.frameIndex = chances >= 3 ? 0 : 1;
+		for (i in 0...3)
+			chanceBar.members[i].animation.frameIndex = chances >= i + 1 ? 0 : 1;
 
 		if (happiness == spots.length && canClickAgain)
 		{
