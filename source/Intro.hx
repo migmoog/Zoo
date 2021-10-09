@@ -2,11 +2,11 @@ package;
 
 class Intro extends FlxState
 {
-	var cutSprite:FlxSprite;
+	var cutscene:FlxSprite;
 
 	override function create()
 	{
-		cutSprite = new FlxSprite(0, 0);
+		cutscene = new FlxSprite(0, 0);
 		super.create();
 	}
 

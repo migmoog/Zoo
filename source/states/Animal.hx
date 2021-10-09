@@ -1,9 +1,7 @@
 package states;
 
 import flixel.FlxObject;
-import flixel.group.FlxSpriteGroup;
 import flixel.input.mouse.FlxMouseEventManager;
-import flixel.math.FlxPoint;
 import flixel.ui.FlxBar;
 import flixel.util.FlxColor.*;
 

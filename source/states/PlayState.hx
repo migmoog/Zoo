@@ -29,10 +29,10 @@ class PlayState extends FlxState
 		#if debug
 		FlxG.log.redirectTraces = true;
 		// DEBUG CRAP COMMENT OUT FOR RELEASE
-		FlxG.switchState(new Giraffe());
+		FlxG.switchState(new Rhino());
 		#end
 
-		bg = new FlxSprite((steps == 0 ? steps : steps - 1) * -1280, 0, "assets/images/testBG.png");
+		bg = new FlxSprite((steps == 0 ? steps : steps - 1) * -1280, 0, "assets/images/backgrounds/BG.png");
 		c = new FlxSprite().loadGraphic("assets/images/char.png");
 		d = new Dialogue('$steps', true);
 
