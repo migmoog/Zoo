@@ -124,7 +124,7 @@ class Animal extends FlxState
 		return d <= s.r && !s.petted;
 	}
 
-	function closest_spot()
+	function closestSpot()
 	{
 		var distance = (s:Spot) ->
 		{

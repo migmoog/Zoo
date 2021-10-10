@@ -41,7 +41,7 @@ class Gorilla extends Animal
 		ogSnoutPoint = snout.getPosition();
 		add(snout);
 
-		armShake = new FlxShakeEffect(closest_spot(), 1);
+		armShake = new FlxShakeEffect(closestSpot(), 1);
 		arm = new FlxEffectSprite(armBase, [armShake]);
 		arm.setPosition(ogArmPoint.x, ogArmPoint.y);
 		add(arm);
@@ -51,13 +51,13 @@ class Gorilla extends Animal
 
 	override function update(elapsed:Float)
 	{
-		var mouse_pos = FlxG.mouse.getPosition();
+		var mouse_pos = FlxPoint.weak(FlxG.mouse.x, FlxG.mouse.y);
 		var jaw_dist = ((FlxG.height / 2 + 50) - mouse_pos.y) / 5;
 		var snout_dist = ogSnoutPoint.distanceTo(mouse_pos) / 100;
 
 		if (!tweeningJaw)
 		{
-			armShake.intensity = closest_spot();
+			armShake.intensity = closestSpot();
 			armShake.start();
 
 			jaw.y = ogJawPoint.y + jaw_dist / 2;

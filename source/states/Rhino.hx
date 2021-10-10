@@ -8,7 +8,7 @@ import flixel.tweens.FlxEase;
 import flixel.util.FlxColor;
 import states.Animal.Spot;
 
-private var setFartCountdown:Float = 2.5;
+private var setFartCountdown:Float = 0.85;
 
 // TODO: finish this rhino
 class Rhino extends Animal
@@ -25,7 +25,7 @@ class Rhino extends Animal
 	override function create()
 	{
 		fart = new FlxSprite(0, 0).loadGraphic("assets/images/fart.png", true, FlxG.width, FlxG.height);
-		fart.alpha = 0.4;
+		fart.alpha = 0.8;
 		fart.animation.add('prt', [for (i in 0...17) i], 30, false);
 
 		fart.animation.callback = (n:String, ?_, ?__) -> if (n == 'prt') fart.visible = true;
@@ -71,7 +71,7 @@ class Rhino extends Animal
 				fartCountdown = setFartCountdown;
 			}
 
-			fart.color = FlxColor.interpolate(FlxColor.RED, FlxColor.GREEN, closest_spot());
+			fart.color = FlxColor.interpolate(0xffffff, FlxColor.GREEN, closestSpot());
 		}
 
 		super.update(elapsed);

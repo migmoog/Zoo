@@ -64,7 +64,7 @@ class Giraffe extends Animal
 		if (!tutDialog.alive)
 		{
 			if (!tweeningJaw)
-				eyeColor.color = FlxColor.interpolate(FlxColor.GREEN, FlxColor.WHITE, closest_spot());
+				eyeColor.color = FlxColor.interpolate(FlxColor.GREEN, FlxColor.WHITE, closestSpot());
 
 			spotDistance();
 		}
