@@ -5,7 +5,10 @@ import flixel.effects.particles.FlxParticle;
 import flixel.math.FlxAngle;
 import flixel.math.FlxMath;
 import flixel.tweens.FlxEase;
+import flixel.util.FlxColor;
 import states.Animal.Spot;
+
+private var setFartCountdown:Float = 2.5;
 
 // TODO: finish this rhino
 class Rhino extends Animal
@@ -15,16 +18,19 @@ class Rhino extends Animal
 	var head:FlxSprite;
 	var fart:FlxSprite;
 
+	var fartCountdown:Float = setFartCountdown;
+
 	var expressing:Bool = false;
 
 	override function create()
 	{
-		#if debug
-		members[0].visible = false;
-		#end
-
 		fart = new FlxSprite(0, 0).loadGraphic("assets/images/fart.png", true, FlxG.width, FlxG.height);
-		fart.animation.add('prt', [for (i in 0...17) i]);
+		fart.alpha = 0.4;
+		fart.animation.add('prt', [for (i in 0...17) i], 30, false);
+
+		fart.animation.callback = (n:String, ?_, ?__) -> if (n == 'prt') fart.visible = true;
+		fart.animation.finishCallback = (n:String) -> if (n == 'prt') fart.visible = false;
+
 		fart.animation.play('prt');
 		add(fart);
 
@@ -52,10 +58,20 @@ class Rhino extends Animal
 	{
 		if (!expressing)
 		{
-			// TODO: make it so if the mouse is below the head, set the angle. else keep the angle the same
 			var angle_mirror = Math.atan2(FlxG.mouse.y - head.origin.y, FlxG.mouse.x - head.origin.x) * FlxAngle.TO_DEG;
 			head.angle = FlxMath.bound(angle_mirror, -15, 15);
 			jaw.angle = -head.angle;
+
+			if (!fart.visible)
+				fartCountdown -= elapsed;
+
+			if (fartCountdown <= 0)
+			{
+				fart.animation.play('prt');
+				fartCountdown = setFartCountdown;
+			}
+
+			fart.color = FlxColor.interpolate(FlxColor.RED, FlxColor.GREEN, closest_spot());
 		}
 
 		super.update(elapsed);
