@@ -8,6 +8,7 @@ import flixel.util.FlxColor.*;
 class Animal extends FlxState
 {
 	// The eyes and sliding/rotating bits will be individual to each animal
+	var bg:FlxSprite;
 	var spots:FlxTypedGroup<Spot>;
 	var baseAniml:FlxSprite;
 	var happyBar:FlxBar;
@@ -85,7 +86,8 @@ class Animal extends FlxState
 		baseAniml = new FlxSprite(0, 0, 'assets/images/${sprName}/${sprName}.png');
 		name = sprName;
 
-		add(new FlxSprite(0, 0, 'assets/images/backgrounds/${sprName}_bg.png'));
+		bg = new FlxSprite(0, 0, 'assets/images/backgrounds/${sprName}_bg.png');
+		add(bg);
 	}
 
 	// will be called at certain times dependant on each animal

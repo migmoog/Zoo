@@ -1,5 +1,7 @@
 package states;
 
+import flixel.addons.effects.chainable.FlxEffectSprite;
+import flixel.addons.effects.chainable.FlxShakeEffect;
 import flixel.effects.particles.FlxEmitter;
 import flixel.effects.particles.FlxParticle;
 import flixel.math.FlxAngle;
@@ -17,13 +19,18 @@ class Rhino extends Animal
 	var jaw:FlxSprite;
 	var head:FlxSprite;
 	var fart:FlxSprite;
+	var backShake:FlxEffectSprite;
+	var backShakeEffect:FlxShakeEffect;
 
 	var fartCountdown:Float = setFartCountdown;
 
+	var pooStages:Int = 0;
 	var expressing:Bool = false;
 
 	override function create()
 	{
+		bg.loadGraphic("assets/images/backgrounds/rhino_bg.png", true, 1280, 720);
+
 		fart = new FlxSprite(0, 0).loadGraphic("assets/images/fart.png", true, FlxG.width, FlxG.height);
 		fart.alpha = 0.8;
 		fart.animation.add('prt', [for (i in 0...17) i], 30, false);
@@ -34,7 +41,9 @@ class Rhino extends Animal
 		fart.animation.play('prt');
 		add(fart);
 
-		add(baseAniml);
+		backShakeEffect = new FlxShakeEffect(50, 0.35);
+		backShake = new FlxEffectSprite(baseAniml, [backShakeEffect]);
+		add(backShake);
 
 		// BODY ASSETS
 		// maybe change file name
@@ -68,18 +77,44 @@ class Rhino extends Animal
 			if (fartCountdown <= 0)
 			{
 				fart.animation.play('prt');
-				fartCountdown = setFartCountdown;
+				fartCountdown = FlxG.random.float(0.5, 1.5);
 			}
 
-			fart.color = FlxColor.interpolate(0xffffff, FlxColor.GREEN, closestSpot());
+			// FIXME: try to find a way to cap color at the original sprite,
+			fart.color = FlxColor.interpolate(0xffffff, FlxColor.GREEN, Math.max(closestSpot(), 0.25));
+			spotDistance();
 		}
 
 		super.update(elapsed);
 	}
 
+	override function express(happy:Bool)
+	{
+		expressing = true;
+
+		fart.color = FlxColor.YELLOW;
+		backShakeEffect.onComplete = () ->
+		{
+			if (happy)
+			{
+				bg.animation.frameIndex = ++pooStages;
+			}
+			expressing = false;
+			canClickAgain = true;
+		}
+		if (happy)
+			backShakeEffect.start();
+		else
+		{
+			expressing = false;
+			canClickAgain = true;
+		}
+		super.express(happy);
+	}
+
 	public function new()
 	{
 		// the base image is the rhino's ass
-		super([new Spot(470, 310, 50)], 'rhino');
+		super([new Spot(470, 310, 100), new Spot(770, 380, 125), new Spot(470, 680, 148)], 'rhino');
 	}
 }

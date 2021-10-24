@@ -57,7 +57,6 @@ class Giraffe extends Animal
 			var x1 = FlxG.mouse.x - jaw.origin.x;
 			var y1 = FlxG.mouse.y - jaw.origin.y;
 			var distance = (Math.sqrt((x1 * x1) + (y1 * y1)) / 100);
-
 			jaw.angle = -distance;
 		}
 
