@@ -6,6 +6,7 @@ import flixel.effects.particles.FlxEmitter;
 import flixel.effects.particles.FlxParticle;
 import flixel.math.FlxAngle;
 import flixel.math.FlxMath;
+import flixel.math.FlxPoint;
 import flixel.tweens.FlxEase;
 import flixel.util.FlxColor;
 import states.Animal.Spot;
@@ -21,6 +22,8 @@ class Rhino extends Animal
 	var fart:FlxSprite;
 	var backShake:FlxEffectSprite;
 	var backShakeEffect:FlxShakeEffect;
+
+	var ogPos:FlxPoint;
 
 	var fartCountdown:Float = setFartCountdown;
 
@@ -56,7 +59,9 @@ class Rhino extends Animal
 
 		head = new FlxSprite(450, 6, "assets/images/rhino/rhino_head.png");
 		head.origin.set(head.width / 2, head.height);
+		head.angle = -180;
 		add(head);
+
 		FlxTween.tween(head, {y: head.y - 35}, 2.5, {ease: FlxEase.cubeOut, type: PINGPONG});
 		FlxTween.tween(jaw, {y: jaw.y + 35}, 2.5, {ease: FlxEase.cubeInOut, type: PINGPONG});
 
@@ -80,8 +85,8 @@ class Rhino extends Animal
 				fartCountdown = FlxG.random.float(0.5, 1.5);
 			}
 
-			// FIXME: try to find a way to cap color at the original sprite,
-			fart.color = FlxColor.interpolate(0xffffff, FlxColor.GREEN, Math.max(closestSpot(), 0.25));
+			var d = closestSpot();
+			fart.color = FlxColor.interpolate(0xffffff, FlxColor.GREEN, d > 1.0 ? 0 : d);
 			spotDistance();
 		}
 

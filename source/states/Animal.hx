@@ -141,16 +141,23 @@ class Animal extends FlxState
 				distance(s)
 		];
 
-		var temp:Float;
-		for (i in 0...dists.length)
-			if (dists[i] > dists[i + 1])
-			{
-				temp = dists[i];
-				dists[i] = dists[i + 1];
-				dists[i + 1] = temp;
-			}
+		/* var temp:Float;
+			for (i in 0...dists.length)
+				if (dists[i] > dists[i + 1])
+				{
+					temp = dists[i];
+					dists[i] = dists[i + 1];
+					dists[i + 1] = temp;
+		}*/
 
-		return dists[0];
+		// return dists[0];
+
+		var min:Float = dists[0];
+		for (i in dists)
+			if (i < min)
+				min = i;
+
+		return min;
 	}
 
 	function express(happy:Bool)
