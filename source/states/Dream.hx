@@ -13,7 +13,7 @@ class Dream extends FlxState
 	{
 		c = new FlxSprite().loadGraphic('assets/images/char.png');
 
-		d = new Dialogue('dream', false, () ->
+		d = new Dialogue('dream', () ->
 		{
 			FlxTween.tween({c: c, d: d}, {"c.alpha": 0, "d.alpha": 0}, 1, {onComplete: (_) -> fadeComplete = true});
 		});

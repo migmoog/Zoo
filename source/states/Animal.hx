@@ -58,7 +58,7 @@ class Animal extends FlxState
 	override function update(elapsed:Float)
 	{
 		for (i in 0...3)
-			chanceBar.members[i].animation.frameIndex = chances >= i + 1 ? 0 : 1;
+			chanceBar.members[i].animation.frameIndex = chances > i ? 0 : 1;
 
 		if (happiness == spots.length && canClickAgain)
 		{
@@ -140,17 +140,6 @@ class Animal extends FlxState
 			for (s in spots.iterator((s) -> !s.petted))
 				distance(s)
 		];
-
-		/* var temp:Float;
-			for (i in 0...dists.length)
-				if (dists[i] > dists[i + 1])
-				{
-					temp = dists[i];
-					dists[i] = dists[i + 1];
-					dists[i + 1] = temp;
-		}*/
-
-		// return dists[0];
 
 		var min:Float = dists[0];
 		for (i in dists)

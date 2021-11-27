@@ -107,6 +107,7 @@ class Rhino extends Animal
 			expressing = false;
 			canClickAgain = true;
 		}
+
 		if (happy)
 			backShakeEffect.start();
 		else
@@ -114,6 +115,7 @@ class Rhino extends Animal
 			expressing = false;
 			canClickAgain = true;
 		}
+
 		super.express(happy);
 	}
 

@@ -32,7 +32,7 @@ class Giraffe extends Animal
 		add(jaw);
 		FlxMouseEventManager.add(jaw, null, null, mouse_over, not_mouse_over);
 
-		tutDialog = new Dialogue('tutorial', false);
+		tutDialog = new Dialogue('tutorial');
 		add(tutDialog);
 
 		super.create();

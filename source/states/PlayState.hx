@@ -34,14 +34,16 @@ class PlayState extends FlxState
 
 		bg = new FlxSprite((steps == 0 ? steps : steps - 1) * -1280, 0, "assets/images/backgrounds/BG.png");
 		c = new FlxSprite().loadGraphic("assets/images/char.png");
-		d = new Dialogue('$steps', true);
+		d = new Dialogue('$steps');
 
 		add(bg);
 		add(c);
 
 		if (steps != 0)
 		{
-			var pre_dialogue = new Dialogue('pre-${steps}', false, () ->
+			// Finish callback won't run bc inPlayState bool doesn't exist any more
+			// need a different way
+			var pre_dialogue = new Dialogue('pre-${steps}', () ->
 			{
 				FlxTween.tween(bg, {x: bg.x - 1280}, 1.5, {onComplete: (_) -> add(d)});
 			});

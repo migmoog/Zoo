@@ -14,17 +14,16 @@ private var name_tag_x = 180;
 
 class Dialogue extends FlxSpriteGroup
 {
-	var inPlayState:Bool;
-
-	var dialogue:Array<String> = [];
+	var dialogue:Array<String>;
 	var currentLine:Int = 0;
+
 	var bgVerts:Array<FlxPoint> = [
-		new FlxPoint(0, 0),
-		new FlxPoint(name_tag_x, 0),
-		new FlxPoint(name_tag_x, 50),
-		new FlxPoint(850, 50),
-		new FlxPoint(850, 290),
-		new FlxPoint(0, 290)
+		FlxPoint.weak(0, 0),
+		FlxPoint.weak(name_tag_x, 0),
+		FlxPoint.weak(name_tag_x, 50),
+		FlxPoint.weak(850, 50),
+		FlxPoint.weak(850, 290),
+		FlxPoint.weak(0, 290)
 	];
 
 	public var name:String;
@@ -36,11 +35,10 @@ class Dialogue extends FlxSpriteGroup
 
 	public var canAdvance:Bool = false;
 
-	public function new(fileName:String, inPlayState:Bool, ?finishCallback:Void->Void)
+	public function new(fileName:String, ?finishCallback:Void->Void)
 	{
 		super();
 
-		this.inPlayState = inPlayState;
 		this.finishCallback = finishCallback;
 		dialogue = Assets.getText('assets/data/dialogues/${fileName}.txt').split('\n');
 
@@ -94,7 +92,7 @@ class Dialogue extends FlxSpriteGroup
 
 	override function kill()
 	{
-		if (inPlayState)
+		if (Std.isOfType(FlxG.state, PlayState))
 		{
 			var s:PlayState = cast FlxG.state;
 			PlayState.steps++;
@@ -103,6 +101,9 @@ class Dialogue extends FlxSpriteGroup
 				s.canTranslate = false;
 			else
 				s.canTranslate = true;
+
+			if (finishCallback != null)
+				finishCallback();
 		}
 		else if (finishCallback != null)
 			finishCallback();
