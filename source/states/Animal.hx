@@ -1,5 +1,6 @@
 package states;
 
+import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.input.mouse.FlxMouseEventManager;
 import flixel.ui.FlxBar;
@@ -9,6 +10,7 @@ class Animal extends FlxState
 {
 	// The eyes and sliding/rotating bits will be individual to each animal
 	var bg:FlxSprite;
+	var allSpotChoices:Array<Spot>;
 	var spots:FlxTypedGroup<Spot>;
 	var baseAniml:FlxSprite;
 	var happyBar:FlxBar;
@@ -74,13 +76,9 @@ class Animal extends FlxState
 		super();
 		this.spots = new FlxTypedGroup<Spot>();
 
-		var inds = [for (i in 0...spots.length) i];
+		FlxG.random.shuffle(spots);
 		for (i in 0...3)
-		{
-			var sI = FlxG.random.getObject(inds);
-			this.spots.add(spots[sI]);
-			inds.remove(sI);
-		}
+			this.spots.add(spots[i]);
 
 		// Make sure to add() the sprite to the scene yourself
 		baseAniml = new FlxSprite(0, 0, 'assets/images/${sprName}/${sprName}.png');

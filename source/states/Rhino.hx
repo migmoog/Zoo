@@ -121,6 +121,13 @@ class Rhino extends Animal
 	public function new()
 	{
 		// the base image is the rhino's ass
-		super([new Spot(470, 310, 100), new Spot(770, 380, 125), new Spot(470, 680, 148)], 'rhino');
+		super([
+			new Spot(470, 310, 100),
+			new Spot(770, 380, 125),
+			new Spot(470, 680, 148),
+			new Spot(860, 350, 125),
+			new Spot(830, 530, 130),
+			new Spot(630, 145, 135)
+		], 'rhino');
 	}
 }

@@ -91,6 +91,15 @@ class Gorilla extends Animal
 
 	public function new()
 	{
-		super([new Spot(450, 600, 50), new Spot(760, 350, 50), new Spot(820, 450, 60)], 'gorilla');
+		super([
+			new Spot(450, 600, 50),
+			new Spot(760, 350, 50),
+			new Spot(820, 450, 60),
+			new Spot(685, 45, 55),
+			new Spot(580, 705, 65),
+			new Spot(815, 300, 70),
+			new Spot(555, 265, 45),
+			new Spot(800, 200, 55)
+		], 'gorilla');
 	}
 }

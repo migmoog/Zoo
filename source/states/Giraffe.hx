@@ -72,7 +72,16 @@ class Giraffe extends Animal
 
 	public function new()
 	{
-		super([new Spot(770, 480, 60), new Spot(340, 270, 85), new Spot(580, 690, 35)], "giraffe");
+		super([
+			new Spot(810, 680, 85),
+			new Spot(770, 480, 60),
+			new Spot(580, 690, 35),
+			new Spot(340, 270, 85),
+			new Spot(290, 200, 75),
+			new Spot(650, 180, 65),
+			new Spot(680, 290, 70),
+			new Spot(730, 230, 75)
+		], "giraffe");
 	}
 
 	override function express(happy:Bool)
