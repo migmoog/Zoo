@@ -35,7 +35,7 @@ class Dialogue extends FlxSpriteGroup
 
 	public var canAdvance:Bool = false;
 
-	public function new(fileName:String, ?finishCallback:Void->Void)
+	public function new(fileName:String, ?finishCallback:Void->Void, ?n:String = "Best Friend")
 	{
 		super();
 
@@ -50,7 +50,7 @@ class Dialogue extends FlxSpriteGroup
 
 		var x_dist = 15;
 
-		name = "Best Friend";
+		name = n;
 		nameBox = new FlxText(bg.x + x_dist, bg.y + 10, 0, name, 32);
 		nameBox.setFormat("assets/data/monogram_extended.ttf", 32);
 		nameBox.color = FlxColor.YELLOW;
@@ -92,20 +92,31 @@ class Dialogue extends FlxSpriteGroup
 
 	override function kill()
 	{
-		if (Std.isOfType(FlxG.state, PlayState))
+		if (FlxG.state is PlayState)
 		{
 			var s:PlayState = cast FlxG.state;
-			PlayState.steps++;
+			if (!s.changedStep)
+			{
+				s.changedStep = true;
+				PlayState.steps++;
+			}
 
 			if (PlayState.steps > s.dialogueSteps)
 				s.canTranslate = false;
 			else
 				s.canTranslate = true;
-
-			if (finishCallback != null)
-				finishCallback();
 		}
-		else if (finishCallback != null)
+		else if (FlxG.state is Intro)
+		{
+			var s:Intro = cast FlxG.state;
+			if (!s.changedStep)
+			{
+				s.changedStep = true;
+				Intro.steps++;
+			}
+		}
+
+		if (finishCallback != null)
 			finishCallback();
 
 		super.kill();

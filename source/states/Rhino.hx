@@ -13,7 +13,6 @@ import states.Animal.Spot;
 
 private var setFartCountdown:Float = 0.85;
 
-// TODO: finish this rhino
 class Rhino extends Animal
 {
 	var chest:FlxSprite;
@@ -86,7 +85,7 @@ class Rhino extends Animal
 			}
 
 			var d = closestSpot();
-			fart.color = FlxColor.interpolate(0xffffff, FlxColor.GREEN, d > 1.0 ? 0 : d);
+			fart.color = FlxColor.interpolate(FlxColor.WHITE, FlxColor.GREEN, d > 1.0 ? 0 : d);
 			spotDistance();
 		}
 

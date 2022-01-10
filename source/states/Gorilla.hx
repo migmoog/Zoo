@@ -74,7 +74,7 @@ class Gorilla extends Animal
 	{
 		super.express(happy);
 
-		FlxTween.tween(jaw, {y: jaw.y + 75}, 1, {
+		FlxTween.tween(jaw, {y: ogJawPoint.y + 75}, 1, {
 			onStart: (_) -> tweeningJaw = true,
 			onComplete: (_) ->
 			{

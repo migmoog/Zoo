@@ -1,12 +1,43 @@
 package;
 
+import objects.Dialogue;
+import states.*;
+
 class Intro extends FlxState
 {
 	var cutscene:FlxSprite;
+	var d:Dialogue;
+	var nextState:Class<FlxState>;
+
+	public static var steps:Int = 0;
+
+	public var changedStep:Bool = false;
 
 	override function create()
 	{
-		cutscene = new FlxSprite(0, 0);
+		var timeOfDay:String;
+
+		switch steps
+		{
+			default:
+				timeOfDay = 'morning';
+				nextState = PlayState;
+			case 1:
+				timeOfDay = 'afternoon';
+				nextState = Dream;
+		}
+		cutscene = new FlxSprite('assets/images/backgrounds/${timeOfDay}_bedroom.png');
+		add(cutscene);
+
+		d = new Dialogue(timeOfDay, () ->
+		{
+			FlxG.camera.fade(FlxColor.WHITE, () ->
+			{
+				FlxG.switchState(Type.createInstance(nextState, []));
+			});
+		}, 'You');
+		add(d);
+
 		super.create();
 	}
 

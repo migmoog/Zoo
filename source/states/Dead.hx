@@ -10,12 +10,13 @@ class Dead extends FlxState
 		super();
 
 		animal = Type.getClass(whichAnimal);
-		key = Type.getClassName(animal).toLowerCase();
+		var strWithPckg = Type.getClassName(animal).toLowerCase();
+		key = strWithPckg.substring(strWithPckg.indexOf('.') + 1);
 	}
 
 	override function create()
 	{
-		add(new FlxSprite().loadGraphic('assets/images/dead screens/${key}_death.png'));
+		add(new FlxSprite('assets/images/dead screens/${key}_death.png'));
 		super.create();
 	}
 

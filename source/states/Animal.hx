@@ -26,12 +26,6 @@ class Animal extends FlxState
 	{
 		FlxG.plugins.add(new FlxMouseEventManager());
 
-		#if debug
-		FlxG.watch.add(this, 'happiness', "spots clicked: ");
-		FlxG.watch.add(this, 'chances', "chances left: ");
-		// FlxG.debugger.visible = true;
-		#end
-
 		var w = 65;
 		var h = 550;
 		happyBar = new FlxBar(FlxG.width - (w + 25), 0, BOTTOM_TO_TOP, w, h, this, 'happiness', 0, spots.members.length, true);
@@ -78,9 +72,15 @@ class Animal extends FlxState
 	public function new(spots:Array<Spot>, sprName:String)
 	{
 		super();
-		this.spots = new FlxTypedGroup<Spot>(spots.length);
-		for (s in spots)
-			this.spots.add(s);
+		this.spots = new FlxTypedGroup<Spot>();
+
+		var inds = [for (i in 0...spots.length) i];
+		for (i in 0...3)
+		{
+			var sI = FlxG.random.getObject(inds);
+			this.spots.add(spots[sI]);
+			inds.remove(sI);
+		}
 
 		// Make sure to add() the sprite to the scene yourself
 		baseAniml = new FlxSprite(0, 0, 'assets/images/${sprName}/${sprName}.png');

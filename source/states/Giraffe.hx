@@ -83,10 +83,7 @@ class Giraffe extends Animal
 			onStart: (_) -> tweeningJaw = true,
 			onUpdate: (_) ->
 			{
-				if (happy)
-					eyeColor.color = FlxColor.GREEN;
-				else
-					eyeColor.color = FlxColor.RED;
+				eyeColor.color = happy ? FlxColor.GREEN : FlxColor.RED;
 			},
 			onComplete: (_) ->
 			{
