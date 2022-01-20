@@ -29,10 +29,6 @@ class PlayState extends FlxState
 	override public function create()
 	{
 		FlxG.mouse.load("assets/images/ui/cursor.png");
-		#if debug
-		// DEBUG CRAP COMMENT OUT FOR RELEASE
-		// FlxG.switchState(new Dream());
-		#end
 
 		bg = new FlxSprite((steps == 0 ? steps : steps - 1) * -1280, 0, "assets/images/backgrounds/BG.png");
 		c = new FlxSprite("assets/images/char.png");

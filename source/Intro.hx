@@ -25,6 +25,8 @@ class Intro extends FlxState
 			case 1:
 				timeOfDay = 'afternoon';
 				nextState = Dream;
+			case 2:
+				timeOfDay = 'night';
 		}
 		cutscene = new FlxSprite('assets/images/backgrounds/${timeOfDay}_bedroom.png');
 		add(cutscene);
@@ -33,7 +35,10 @@ class Intro extends FlxState
 		{
 			FlxG.camera.fade(FlxColor.WHITE, () ->
 			{
-				FlxG.switchState(Type.createInstance(nextState, []));
+				if (nextState != null)
+					FlxG.switchState(Type.createInstance(nextState, []));
+				else
+					commenceEnding();
 			});
 		}, 'You');
 		add(d);
@@ -45,4 +50,6 @@ class Intro extends FlxState
 	{
 		super.update(elapsed);
 	}
+
+	function commenceEnding() {}
 }
