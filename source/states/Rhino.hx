@@ -94,28 +94,26 @@ class Rhino extends Animal
 
 	override function express(happy:Bool)
 	{
-		expressing = true;
+		super.express(happy);
 
-		fart.color = FlxColor.YELLOW;
+		expressing = true;
 		backShakeEffect.onComplete = () ->
 		{
 			if (happy)
 			{
 				bg.animation.frameIndex = ++pooStages;
 			}
-			expressing = false;
 			canClickAgain = true;
+			expressing = false;
 		}
 
 		if (happy)
 			backShakeEffect.start();
 		else
 		{
-			expressing = false;
 			canClickAgain = true;
+			expressing = false;
 		}
-
-		super.express(happy);
 	}
 
 	public function new()
