@@ -56,7 +56,7 @@ class Dialogue extends FlxSpriteGroup
 		nameBox.color = FlxColor.YELLOW;
 		add(nameBox);
 
-		text = new FlxTypeText(bg.x + x_dist, bg.y + 60, 850, dialogue[currentLine], 48, true);
+		text = new FlxTypeText(bg.x + x_dist, bg.y + 60, 825, dialogue[currentLine], 48, true);
 		text.setFormat("assets/data/monogram_extended.ttf", 48);
 		text.completeCallback = () -> canAdvance = true;
 		add(text);

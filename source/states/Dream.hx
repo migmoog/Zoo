@@ -1,5 +1,6 @@
 package states;
 
+import flixel.system.FlxSound;
 import flixel.text.FlxText;
 import flixel.util.FlxTimer;
 import objects.Dialogue;
@@ -107,26 +108,23 @@ class Dream extends FlxState
 				{
 					FlxG.stage.removeChild(video);
 
-					var first = new FlxText(0, 0, 0, "TEAM MAX HOG", 46);
+					var first = new FlxText("TEAM MAX HOG", 46);
 					first.screenCenter();
 					first.alpha = 0;
 					first.y -= first.height * 1.5;
 					add(first);
-					var second = new FlxText(0, 0, 0, "IS NOW REAL", 46);
+					var second = new FlxText("IS NOW REAL", 46);
 					second.color = FlxColor.RED;
 					second.screenCenter();
 					second.alpha = 0;
 					add(second);
 					FlxTween.tween(first, {alpha: 1}, 1.5, {
-						onComplete: (_) ->
+						onStart: (_) ->
 						{
-							FlxTween.tween(second, {alpha: 1}, 1.5).onComplete = (_) ->
-							{
-								new FlxTimer().start(1, (_) ->
-								{
-									finishedCutscene = true;
-								});
-							};
+							FlxG.sound.play('assets/sounds/misc/bell_toll.mp3', () -> FlxTween.tween(second, {alpha: 1}, 1.5, {
+								onStart: (_) -> FlxG.sound.play('assets/sounds/misc/bell_toll.mp3'),
+								onComplete: (_) -> new FlxTimer().start(1, (_) -> finishedCutscene = true)
+							}));
 						}
 					});
 				});
