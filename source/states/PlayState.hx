@@ -28,7 +28,8 @@ class PlayState extends FlxState
 
 	override public function create()
 	{
-		FlxG.mouse.load("assets/images/ui/cursor.png");
+		if (FlxG.sound.music == null)
+			FlxG.sound.playMusic('assets/music/main.mp3');
 
 		bg = new FlxSprite((steps == 0 ? steps : steps - 1) * -1280, 0, "assets/images/backgrounds/BG.png");
 		c = new FlxSprite("assets/images/char.png");
@@ -79,6 +80,9 @@ class PlayState extends FlxState
 			canTranslate = false;
 			FlxG.camera.fade(FlxColor.WHITE, 1.25, false, () ->
 			{
+				FlxG.sound.music.stop();
+				FlxG.sound.music = null;
+
 				// how to pick new scenes
 				switch (steps)
 				{

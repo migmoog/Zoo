@@ -26,6 +26,14 @@ class Animal extends FlxState
 
 	override function create()
 	{
+		if (FlxG.sound.music == null)
+			FlxG.sound.playMusic('assets/music/petting.mp3');
+		else
+		{
+			FlxG.sound.music = null;
+			FlxG.sound.playMusic('assets/music/petting.mp3');
+		}
+
 		FlxG.plugins.add(new FlxMouseEventManager());
 
 		var w = 65;
@@ -59,7 +67,10 @@ class Animal extends FlxState
 		if (happiness == spots.length && canClickAgain)
 		{
 			canClickAgain = false;
-			FlxG.switchState(new PlayState());
+			FlxG.sound.music.destroy();
+			FlxG.sound.music = null;
+			FlxG.camera.fade(FlxColor.WHITE, 1, false, () -> FlxG.switchState(new PlayState()));
+			// FlxG.switchState(new PlayState());
 		}
 
 		if (chances <= 0 && canClickAgain)
