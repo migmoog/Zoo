@@ -70,6 +70,12 @@ class Intro extends FlxState
 			"f.alpha": 1,
 			"b.alpha": 0
 		}, 2.5, {
+			onStart: (_) ->
+			{
+				FlxG.sound.music.stop();
+				FlxG.sound.music = null;
+				FlxG.sound.playMusic('assets/music/petting.mp3');
+			},
 			onComplete: (_) ->
 			{
 				var dScream = new Dialogue('post-dream', () ->

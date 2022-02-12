@@ -29,6 +29,9 @@ class Dream extends FlxState
 	// TODO add cutscene
 	override function create()
 	{
+		if (FlxG.sound.music == null)
+			FlxG.sound.playMusic('assets/music/dream.mp3');
+
 		c = new FlxSprite('assets/images/char.png');
 		hitWall.loadEmbedded('assets/sounds/hit_wall.ogg');
 		hitWall.volume = 0.5;
@@ -60,6 +63,10 @@ class Dream extends FlxState
 		add(d);
 
 		super.create();
+
+		#if debug
+		Intro.steps = 2;
+		#end
 	}
 
 	override function update(elapsed:Float)
@@ -70,6 +77,7 @@ class Dream extends FlxState
 			{
 				fadeComplete = false;
 				hitWall.play(true);
+				FlxG.sound.music.volume *= 0.8;
 				hitWall.volume += 0.2;
 
 				FlxG.camera.shake(shakeIntens, 0.5, () ->
@@ -81,8 +89,9 @@ class Dream extends FlxState
 			}
 			else if (clicks >= 4 && netStream == null)
 			{
-				// playEnding();
 				wall.destroy();
+				FlxG.sound.music.stop();
+				FlxG.sound.music = null;
 				FlxG.camera.fade(FlxColor.WHITE, 1.8, true, () -> netStream.play('assets/images/hog_attack.mp4'));
 				playEnding();
 			}
