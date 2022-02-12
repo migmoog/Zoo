@@ -1,12 +1,13 @@
 package;
 
+import flixel.addons.ui.FlxButtonPlus;
 import flixel.ui.FlxButton;
 
 class StartMenu extends FlxState
 {
 	var title:FlxSprite;
 
-	var button:FlxButton;
+	var button:FlxButtonPlus;
 	var messWithPlayer:Int = 5;
 	var moveToRandom:FlxTween;
 	var movingBtn:Bool = false;
@@ -16,19 +17,16 @@ class StartMenu extends FlxState
 		if (FlxG.sound.music == null)
 			FlxG.sound.playMusic('assets/music/title.mp3');
 
-		button = new FlxButton(0, 0, "Start teh epicness", () ->
+		add(new FlxSprite('assets/images/ui/titlescreen.png'));
+
+		button = new FlxButtonPlus(0, 0, () ->
 		{
 			FlxG.sound.music.stop();
 			FlxG.sound.music = null;
 			FlxG.switchState(new Intro());
 		});
-		var nw:Int = cast button.width * 4;
-		var nh:Int = cast button.height * 4;
-		button.setGraphicSize(nw, nh);
-		button.setSize(nw, nh);
-		button.centerOffsets(true);
+		button.loadButtonGraphic(new FlxSprite('assets/images/ui/start.png'), new FlxSprite('assets/images/ui/startclicked.png'));
 		button.screenCenter();
-		button.label.setSize(50, 50);
 		add(button);
 
 		moveToRandom = FlxTween.tween(button, {

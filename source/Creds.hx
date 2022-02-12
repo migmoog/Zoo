@@ -2,13 +2,19 @@ package;
 
 import flixel.group.FlxSpriteGroup;
 import flixel.text.FlxText;
+import states.PlayState;
 
 class Creds extends FlxState
 {
 	var credGroup:FlxSpriteGroup;
+	var goobers:FlxSprite;
+	var goobText:FlxText;
 
 	override function create()
 	{
+		FlxG.sound.music.stop();
+		FlxG.sound.playMusic('assets/music/credits.mp3');
+
 		var mid = FlxG.width / 2;
 		credGroup = new FlxSpriteGroup();
 
@@ -54,9 +60,15 @@ class Creds extends FlxState
 		credGroup.add(boon);
 		credGroup.add(usernameText('Boon', boon));
 
-		credGroup.x = mid - 26;
+		credGroup.x = mid - 10;
 		credGroup.y = FlxG.height + spacing;
 		add(credGroup);
+
+		goobers = new FlxSprite(65, 320, 'assets/images/icons/lilgoobers.png');
+		add(goobers);
+		goobText = new FlxText(goobers.x, goobers.y - 128, 0, "CODE: MigMoog\nART: Tiny", 48);
+		goobText.alignment = CENTER;
+		add(goobText);
 
 		super.create();
 	}
@@ -69,20 +81,36 @@ class Creds extends FlxState
 		else
 			speed = 100;
 
-		credGroup.y -= speed * elapsed;
+		if (credGroup.length > 0)
+		{
+			var boon:FlxSprite = credGroup.members[credGroup.members.length - 2];
+			if ((boon.y + boon.height + 10) > 0)
+			{
+				credGroup.y -= speed * elapsed;
+			}
+			else
+			{
+				goobText.text = "YOUR TIME IS UP\nCLICK TO RESUME YOUR COIL";
+				if (FlxG.mouse.justPressed)
+				{
+					FlxG.camera.fade(FlxColor.LIME, 1, false, () ->
+
+					{
+						Intro.steps = PlayState.steps = 0;
+						FlxG.switchState(new StartMenu());
+					});
+				}
+			}
+		}
 
 		super.update(elapsed);
 	}
 
 	function sbtm(s:FlxSprite)
-	{
 		return s.y + s.height;
-	}
 
 	function ic(t:String)
-	{
 		return 'assets/images/icons/${t + 'icon'}.png';
-	}
 
 	function credText(t:String)
 	{

@@ -16,6 +16,9 @@ class Intro extends FlxState
 
 	override function create()
 	{
+		if (FlxG.sound.music == null)
+			FlxG.sound.playMusic('assets/music/room.mp3');
+
 		var timeOfDay:String;
 
 		switch steps
@@ -37,6 +40,8 @@ class Intro extends FlxState
 			if (nextState != null)
 				FlxG.camera.fade(FlxColor.WHITE, () ->
 				{
+					FlxG.sound.music.stop();
+					FlxG.sound.music = null;
 					FlxG.switchState(Type.createInstance(nextState, []));
 				});
 			else
@@ -69,7 +74,7 @@ class Intro extends FlxState
 			{
 				var dScream = new Dialogue('post-dream', () ->
 				{
-					FlxG.resetGame();
+					FlxG.switchState(new Creds());
 				}, "You");
 				add(dScream);
 			}

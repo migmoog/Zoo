@@ -24,10 +24,14 @@ class Dream extends FlxState
 
 	var shakeIntens:Float = 0.08;
 
+	var hitWall = new FlxSound();
+
 	// TODO add cutscene
 	override function create()
 	{
 		c = new FlxSprite('assets/images/char.png');
+		hitWall.loadEmbedded('assets/sounds/hit_wall.ogg');
+		hitWall.volume = 0.5;
 
 		d = new Dialogue('dream', () ->
 		{
@@ -42,7 +46,12 @@ class Dream extends FlxState
 					// fadeComplete = true;
 					wall = new FlxSprite().loadGraphic('assets/images/backgrounds/dream_wall/wall.png', true, 1280, 720);
 					add(wall);
-					FlxG.camera.shake(0.015, 0.75, () -> fadeComplete = true);
+					FlxG.camera.shake(0.015, 0.75, () ->
+					{
+						fadeComplete = true;
+						hitWall.play(true);
+						hitWall.volume += 0.25;
+					});
 				}
 			});
 		});
@@ -60,6 +69,8 @@ class Dream extends FlxState
 			if (clicks < 4)
 			{
 				fadeComplete = false;
+				hitWall.play(true);
+				hitWall.volume += 0.2;
 
 				FlxG.camera.shake(shakeIntens, 0.5, () ->
 				{
@@ -70,6 +81,9 @@ class Dream extends FlxState
 			}
 			else if (clicks >= 4 && netStream == null)
 			{
+				// playEnding();
+				wall.destroy();
+				FlxG.camera.fade(FlxColor.WHITE, 1.8, true, () -> netStream.play('assets/images/hog_attack.mp4'));
 				playEnding();
 			}
 		}
@@ -104,34 +118,31 @@ class Dream extends FlxState
 			else if (e.info.code == "NetStream.Play.Complete")
 			{
 				video.alpha = 0;
-				FlxG.camera.fade(FlxColor.WHITE, 1, true, () ->
-				{
-					FlxG.stage.removeChild(video);
+				FlxG.stage.removeChild(video);
 
-					var first = new FlxText("TEAM MAX HOG", 46);
-					first.screenCenter();
-					first.alpha = 0;
-					first.y -= first.height * 1.5;
-					add(first);
-					var second = new FlxText("IS NOW REAL", 46);
-					second.color = FlxColor.RED;
-					second.screenCenter();
-					second.alpha = 0;
-					add(second);
-					FlxTween.tween(first, {alpha: 1}, 1.5, {
-						onStart: (_) ->
-						{
-							FlxG.sound.play('assets/sounds/misc/bell_toll.mp3', () -> FlxTween.tween(second, {alpha: 1}, 1.5, {
-								onStart: (_) -> FlxG.sound.play('assets/sounds/misc/bell_toll.mp3'),
-								onComplete: (_) -> new FlxTimer().start(1, (_) -> finishedCutscene = true)
-							}));
-						}
-					});
+				var first = new FlxText("TEAM MAX HOG", 46);
+				first.screenCenter();
+				first.alpha = 0;
+				first.y -= first.height * 1.5;
+				add(first);
+				var second = new FlxText("IS NOW REAL", 46);
+				second.color = FlxColor.RED;
+				second.screenCenter();
+				second.alpha = 0;
+				add(second);
+				FlxTween.tween(first, {alpha: 1}, 1.5, {
+					onStart: (_) ->
+					{
+						FlxG.sound.play('assets/sounds/misc/bell_toll.mp3', () -> FlxTween.tween(second, {alpha: 1}, 1.5, {
+							onStart: (_) -> FlxG.sound.play('assets/sounds/misc/bell_toll.mp3'),
+							onComplete: (_) -> new FlxTimer().start(1, (_) -> finishedCutscene = true)
+						}));
+					}
 				});
 			}
 		});
 
-		netStream.play('assets/images/hog_attack.mp4');
+		// netStream.play('assets/images/hog_attack.mp4');
 	}
 
 	private function client_onMetaData(metaData:Dynamic)
