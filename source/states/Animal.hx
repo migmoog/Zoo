@@ -70,7 +70,6 @@ class Animal extends FlxState
 			FlxG.sound.music.destroy();
 			FlxG.sound.music = null;
 			FlxG.camera.fade(FlxColor.WHITE, 1, false, () -> FlxG.switchState(new PlayState()));
-			// FlxG.switchState(new PlayState());
 		}
 
 		if (chances <= 0 && canClickAgain)

@@ -40,7 +40,6 @@ class StartMenu extends FlxState
 
 	override function update(elapsed:Float)
 	{
-		// FIXME: this stuff
 		var btnPos = button.getMidpoint();
 		var mousePos = FlxG.mouse.getPosition();
 		if (btnPos.distanceTo(mousePos) <= 200 && !movingBtn)
