@@ -7,6 +7,9 @@ class Dead extends FlxState
 
 	public function new(whichAnimal:Animal)
 	{
+		FlxG.sound.music.stop();
+		FlxG.sound.music = null;
+
 		super();
 
 		animal = Type.getClass(whichAnimal);

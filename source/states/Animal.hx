@@ -30,6 +30,7 @@ class Animal extends FlxState
 			FlxG.sound.playMusic('assets/music/petting.mp3');
 		else
 		{
+			FlxG.sound.music.stop();
 			FlxG.sound.music = null;
 			FlxG.sound.playMusic('assets/music/petting.mp3');
 		}
